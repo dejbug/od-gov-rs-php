@@ -1,0 +1,8 @@
+* { margin: 0; padding; 0; }
+.row { display: inline-block; max-height: 1.5em; max-width: 100%; }
+.row-expanded { background-color: #555 !important; color: #fff; }
+.row-expanded:hover { background-color: #555; color: #ff0; }
+.long { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clickable { cursor: pointer; margin: .3em; }
+.clickable:hover { background-color: #ffa; }
+.cache-status { font-family: mono; text-align: right; background-color: #fee; }
