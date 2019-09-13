@@ -1,5 +1,10 @@
 <?php
 function fetch_dataset($page_size=20, $outpath=NULL) {
+	// If outpath is relative to the "cache" folder, then
+		// just overwrite if path exists; else fail if file
+		// exists. Note that only forward slashes are checked.
+	if (is_string($outpath) && strncmp($outpath, "cache/", 6) && is_file($outpath)) return NULL;
+	
 	$page_size = is_int($page_size) ? $page_size : 20;
 
 	$ch = curl_init("https://data.gov.rs/api/1/datasets/?page_size=".$page_size);
@@ -10,18 +15,13 @@ function fetch_dataset($page_size=20, $outpath=NULL) {
 	$fp = NULL;
 
 	if (is_string($outpath)) {
-		// If outpath is relative to the "cache" folder, then
-		// just overwrite if path exists; else fail if file
-		// exists. Note that only forward slashes are checked.
-		if (strncmp($outpath, "cache/", 6) && is_file($outpath))
-		{
-			curl_close($ch);
-			return FALSE;
-		}
 		$fp = fopen($outpath, "w");
 		curl_setopt($ch, CURLOPT_FILE, $fp);
 	}
 	else if (is_resource($outpath)) {
+		// outpath is really outfile. Note we do not check whether
+		// the resource is a file or something else (and just hope
+		// that it will look like a file i.e. can be written to).
 		curl_setopt($ch, CURLOPT_FILE, $outpath);
 	}
 	else {

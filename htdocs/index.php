@@ -16,7 +16,7 @@ require_once("fetch_dataset.php");
 $cache_max_age = 3600;
 $cache_path = "cache/dataset1_30.json";
 $cache_age = file_age($cache_path);
-if ($cache_age > $cache_max_age)
+if (file_age_expired($cache_age))
 {
 	if (!fetch_dataset(30, "cache/dataset1_30.json"))
 		die("Error fetching list of datasets.");
@@ -39,7 +39,7 @@ foreach ($json["data"] as $x) {
 	$i = $i + 1;
 }
 ?>
-<p><small>(... and there's more where this came from.)</small></p>
+<p><small>(... and there's <a href="https://data.gov.rs">more</a> where this came from.)</small></p>
 </div>
 <script src="index.js"></script>
 </body>
