@@ -1,10 +1,10 @@
 <?php
 /// Write some logs.
 $f = fopen('update.log', 'a');
+fwrite($f, "---\r\n");
 fwrite($f, date('r', $_SERVER['REQUEST_TIME'])."\r\n");
 fwrite($f, $_SERVER['REMOTE_ADDR']."\r\n");
 fwrite($f, $_SERVER['HTTP_USER_AGENT']."\r\n");
-fwrite($f, "---\r\n");
 fclose($f);
 // die (var_export($_SERVER, TRUE));
 
@@ -29,6 +29,11 @@ $in = fopen('php://input', 'rb');
 $payload = stream_get_contents($in);
 fclose($in);
 // die ($payload);
+
+$f = fopen('update.log', 'a');
+fwrite($f, $sig_hmac."\r\n");
+fwrite($f, $payload."\r\n");
+fclose($f);
 
 /// Read our secret against which to authenticate the HMAC.
 $secret = trim(file_get_contents('update.secret'));
