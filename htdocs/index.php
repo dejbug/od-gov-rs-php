@@ -13,6 +13,8 @@
 require_once("file.php");
 require_once("fetch_dataset.php");
 
+if (!file_exists('cache')) mkdir('cache');
+
 $cache_max_age = 3600;
 $cache_path = "cache/dataset1_30.json";
 $cache_age = file_age($cache_path);
