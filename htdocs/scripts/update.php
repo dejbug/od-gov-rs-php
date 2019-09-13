@@ -6,9 +6,15 @@ fwrite($f, $_SERVER['HTTP_USER_AGENT']."\r\n");
 fwrite($f, $_SERVER['HTTP_REFERER']."\r\n");
 fwrite($f, "---\r\n");
 fclose($f);
+
+if (!array_key_exists('SECRET', $_POST)) die ('*');
+
+$secret = file_get_contents('update.secret');
+if (FALSE === $secret) die ('>');
+if (strlen($secret) < 16) die ('#');
+if ($_POST['SECRET'] != $secret) die ('=');
+
 $result = 0;
-if (!array_key_exists('YOUR_SECRET_KEY', $_POST)) echo '*';
-else if ($_POST['YOUR_SECRET_KEY'] != 'YOUR_SECRET_VALUE') echo '=';
-else if (FALSE === system('./update.sh', $result)) echo '!';
-else echo $result;
+if (FALSE === system('./update.sh', $result)) die ('!');
+echo $result;
 ?>
