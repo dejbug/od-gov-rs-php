@@ -21,8 +21,10 @@ $sig_algo = strtolower($sig_pair[0]);
 $sig_hmac = strtoupper($sig_pair[1]);
 
 /// Does our PHP distro support the HMAC's algorithm?
-// if (FALSE === array_search($sig_algo, hash_algos(), TRUE)) die ('?');
-if (FALSE === array_search($sig_algo, hash_hmac_algos(), TRUE)) die ('?');
+// if (FALSE === array_search($sig_algo, hash_hmac_algos(), TRUE)) die ('?');
+/// FIXME: This is a hack because my server currently runs on PHP<7 . The
+/// correct function to use is of course the above 'hash_hmac_algos()'.
+if (FALSE === array_search($sig_algo, hash_algos(), TRUE)) die ('?');
 
 /// Read the payload.
 $in = fopen('php://input', 'rb');
